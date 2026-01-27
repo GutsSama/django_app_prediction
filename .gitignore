@@ -1,2 +1,28 @@
+# Environnements virtuels
 /environment
-.venv
+venv/
+.env/
+.venv/
+
+# Fichiers Python
+__pycache__/
+*.py[cod]*
+*.pyc*
+*$py.class
+*/__pycache__/*
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Base de données SQLite (en dev seulement)
+db.sqlite3
+
+# Logs
+*.log

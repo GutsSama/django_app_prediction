@@ -33,7 +33,7 @@ ALLOWED_HOSTS = []
 INSTALLED_APPS = [
     # My app
     'apps.core',
-    'apps.accouns',
+    'apps.accounts',
     'apps.prediction',
 
     'django.contrib.admin',
