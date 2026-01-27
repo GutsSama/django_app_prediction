@@ -7,9 +7,12 @@ venv/
 # Fichiers Python
 __pycache__/
 *.py[cod]*
-*.pyc*
+*.pyc
 *$py.class
 */__pycache__/*
+*.pyo
+*.pyd
+
 
 # Fichiers IDE
 .vscode/
@@ -26,3 +29,6 @@ db.sqlite3
 
 # Logs
 *.log
+
+
+.env 
