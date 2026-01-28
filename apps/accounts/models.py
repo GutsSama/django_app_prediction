@@ -8,7 +8,8 @@ class CustomUser(AbstractUser):
 
 class AccountUser(models.Model):
 
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    #Faut supprimer null après
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
 
 
     age = models.PositiveIntegerField(verbose_name="Âge", null=True)
@@ -18,12 +19,19 @@ class AccountUser(models.Model):
     poids = models.PositiveIntegerField(verbose_name="Poids (kg)",  null=True)
 
     SEX_CHOICES = (
-        ("F", "Femme"),
-        ("H", "Homme"),
+        ("female", "Femme"),
+        ("male", "Homme"),
     )
-    sex = models.CharField(max_length=1, choices=SEX_CHOICES, verbose_name="Sexe",  null=True)
+    sex = models.CharField(choices=SEX_CHOICES, verbose_name="Sexe",  null=True)
 
-    is_fumeur = models.BooleanField(default=False, verbose_name="Fumeur ?")
+
+    FUMEUR_CHOICES = (
+        ("yes", "oui"),
+        ("no", "non"),
+    )
+
+    is_fumeur = models.CharField(choices=FUMEUR_CHOICES, verbose_name="fumeur",  null=True)
+
 
     REGION_CHOICES = [
         ('northeast', 'Nord-Est'),
@@ -31,7 +39,7 @@ class AccountUser(models.Model):
         ('southeast', 'Sud-Est'),
         ('southwest', 'Sud-Ouest'),
     ]
-    region = models.CharField(max_length=10,choices=REGION_CHOICES,verbose_name="Région",  null=True)
+    region = models.CharField(choices=REGION_CHOICES,verbose_name="Région",  null=True)
 
     def __str__(self):
         return str(self.user) 
