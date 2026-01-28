@@ -16,7 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from apps.accounts.views import signup_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path("accounts/signup/", signup_view, name="signup"),
 ]

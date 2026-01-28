@@ -8,8 +8,11 @@ class CustomUser(AbstractUser):
 
 class AccountUser(models.Model):
 
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-
+    user = models.OneToOneField(
+    CustomUser,
+    on_delete=models.CASCADE,
+    related_name="account_profile"
+    )
 
     age = models.PositiveIntegerField(verbose_name="Âge", null=True)
     children = models.PositiveIntegerField(default=0, verbose_name="Nombre d'enfants")
@@ -35,3 +38,6 @@ class AccountUser(models.Model):
 
     def __str__(self):
         return str(self.user) 
+
+class CounselorProfile(models.Model):
+    pass
