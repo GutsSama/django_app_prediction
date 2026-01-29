@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'apps.accounts',
     'apps.prediction',
 
+    'tailwind',
+    'theme',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +63,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'django_app_prediction.urls'
 
+TAILWIND_APP_NAME = 'theme'
+
+if DEBUG:
+    # Add django_browser_reload only in DEBUG mode
+    INSTALLED_APPS += ["django_browser_reload"]
+
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -75,7 +84,6 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'django_app_prediction.wsgi.application'
 
 
 # Database
