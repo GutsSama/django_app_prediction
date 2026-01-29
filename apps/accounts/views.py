@@ -72,4 +72,3 @@ class ProfileView(LoginRequiredMixin, UpdateView):
             }
         )
         return account_user
-

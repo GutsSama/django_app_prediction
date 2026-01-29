@@ -24,7 +24,7 @@ class AccountUser(models.Model):
         ("female", "Femme"),
         ("male", "Homme"),
     )
-    sex = models.CharField(choices=SEX_CHOICES, verbose_name="Sexe",  null=True)
+    sex = models.CharField(choices=SEX_CHOICES, verbose_name="Sexe",  null=True, default='male')
 
 
     FUMEUR_CHOICES = (
@@ -32,7 +32,7 @@ class AccountUser(models.Model):
         ("no", "non"),
     )
 
-    is_fumeur = models.CharField(choices=FUMEUR_CHOICES, verbose_name="fumeur",  null=True)
+    is_fumeur = models.CharField(choices=FUMEUR_CHOICES, verbose_name="fumeur",  null=True, default="no")
 
 
     REGION_CHOICES = [
@@ -41,7 +41,7 @@ class AccountUser(models.Model):
         ('southeast', 'Sud-Est'),
         ('southwest', 'Sud-Ouest'),
     ]
-    region = models.CharField(choices=REGION_CHOICES,verbose_name="Région",  null=True)
+    region = models.CharField(choices=REGION_CHOICES,verbose_name="Région",  null=True,   default="northeast")
 
     def __str__(self):
         return str(self.user) 
