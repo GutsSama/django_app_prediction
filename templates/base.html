@@ -1,0 +1,15 @@
+{% load static tailwind_tags %}
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+    <!-- Tailwind CSS -->
+    {% tailwind_css %}
+
+</head>
+    <body>
+        {% include 'base/header.html' %}
+        <main>
+        {% block content %}{% endblock %}
+        </main>
+    </body>
+</html>        
