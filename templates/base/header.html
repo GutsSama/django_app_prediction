@@ -1,6 +1,13 @@
 {% load static %}
 
 
-<div class="navbar bg-base-100 shadow-sm">
-  <img src="{% static 'images/logo.png' %}" alt="Logo" class="w-10 h-10 ml-4"/>
-</div>
+
+    <div class="grid grid-cols-5 gap-4">
+        <div><img src="{% static 'images/logo.png' %}" style="width: 200px; height: 120px;" alt="Logo"/></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div><a class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl m-auto" style="margin-top: 30px; margin-right: 10px" href="{% url 'signup' %}" >Inscription</a><a class="btn btn-xs sm:btn-sm md:btn-md lg:btn-lg xl:btn-xl m-auto" style="margin-top: 30px;" href="{% url 'login' %}">Connexion</a></div>
+    </div>
+
+
