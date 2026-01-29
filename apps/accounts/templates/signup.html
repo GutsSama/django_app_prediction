@@ -1,7 +1,13 @@
-<h1>Inscription</h1>
+{% extends "base.html" %}
+{% block content %}
 
-<form method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <button type="submit">Créer un compte</button>
-</form>
+  <h1>Inscription</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Créer un compte</button>
+  </form>
+
+
+{% endblock %}
