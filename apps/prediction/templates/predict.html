@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Prédiction des charges</title>
+</head>
+<body>
+
+<div>
+    <h1>Prédiction des charges d’assurance</h1>
+
+    <!-- Messages Django -->
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li
+                  {% if message.tags %} class="{{ message.tags }}" {% endif %}
+                >
+                  {{ message }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+    <!-- Formulaire -->
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Envoyer</button>
+    </form>
+
+    <!-- Résultat -->
+    {% if prediction %}
+        <h2>Résultat</h2>
+        <p><strong>Charges estimées :</strong> {{ prediction }} €</p>
+    {% endif %}
+</div>
+
+</body>
+</html>
