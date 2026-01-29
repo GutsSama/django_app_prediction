@@ -8,7 +8,7 @@ from .models import CustomUser
 
 class SignupView(View):
     def get(self, request):
-        return render(request, "accounts/signup.html", {"form": SignupForm()})
+        return render(request, "signup.html", {"form": SignupForm()})
 
     def post(self, request):
         form = SignupForm(request.POST)
@@ -17,13 +17,13 @@ class SignupView(View):
             # username reste obligatoire en interne -> on le remplit avec l'email
             user.username = user.email
             user.save()
-            return redirect("/accounts/login/")  # évite ton "/" qui 404
-        return render(request, "accounts/signup.html", {"form": form})
+            return redirect("/login/")  # évite ton "/" qui 404
+        return render(request, "signup.html", {"form": form})
 
 
 class LoginView(View):
     def get(self, request):
-        return render(request, "accounts/login.html", {"form": LoginForm()})
+        return render(request, "login.html", {"form": LoginForm()})
 
     def post(self, request):
         form = LoginForm(request.POST)
@@ -42,8 +42,8 @@ class LoginView(View):
 
             if user:
                 login(request, user)
-                return redirect("/admin/")
+                #return redirect("/admin/")
 
             form.add_error(None, "Email ou mot de passe incorrect")
 
-        return render(request, "accounts/login.html", {"form": form})
+        return render(request, "login.html", {"form": form})
