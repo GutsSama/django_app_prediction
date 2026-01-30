@@ -8,3 +8,13 @@
   {{ form.as_p }}
   <button type="submit">Enregistrer</button>
 </form>
+
+<hr>
+
+<!-- 🔴 Bouton Déconnexion -->
+<form method="post" action="{% url 'logout' %}">
+  {% csrf_token %}
+  <button type="submit">
+    Déconnexion
+  </button>
+</form>
