@@ -1,7 +1,5 @@
 {% load static %}
 
-
-
 <div class="grid grid-cols-8 gap-4 items-center">
     <div class="col-span-2">
         <a href="{% url 'accueil' %}">
@@ -14,7 +12,12 @@
     <div class="col-span-2 flex justify-end mr-4">
         {% if user.is_authenticated %}
             <div class="space-x-2">
-                <a class="btn btn-outline btn-secondary" href="{% url 'logout' %}">Déconnexion</a>
+                <form method="post" action="{% url 'logout' %}" class="inline">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-outline btn-secondary">
+                        Déconnexion
+                    </button>
+                </form>
             </div>
         {% elif not user.is_authenticated and request.path == "/accueil/" %}
         <div class="space-x-2">
@@ -24,5 +27,3 @@
         {% endif %}
     </div>
 </div>
-
-
