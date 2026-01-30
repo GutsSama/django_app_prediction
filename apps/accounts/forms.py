@@ -36,9 +36,8 @@ class SignupForm(UserCreationForm):
             }),
         }
 
-
-class LoginForm(forms.Form):
-    email = forms.EmailField(
+class LoginForm(AuthenticationForm):
+    username = forms.EmailField(
         required=True,
         label='Votre adresse email',
         widget=forms.EmailInput(attrs={
@@ -57,8 +56,7 @@ class LoginForm(forms.Form):
             "class": "input input-bordered w-full",
             "placeholder": "Votre mot de passe"
         }),
-    )
-
+    ))
 
 class AccountUserForm(forms.ModelForm):
     class Meta:
