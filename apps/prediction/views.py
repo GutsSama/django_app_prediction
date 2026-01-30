@@ -63,8 +63,6 @@ class PredictionView(LoginRequiredMixin, FormView):
             prediction = self.predict(data, bmi)
             messages.success(self.request, f'Charges estimées : {prediction:.2f} €')
             self.prediction_result = prediction
-            self.save_profile(data)
-
 
         except Exception as e:
             messages.error(self.request, f'Erreur : {str(e)}')
@@ -95,15 +93,3 @@ class PredictionView(LoginRequiredMixin, FormView):
         prediction = self.model.predict(input_data)[0]
         return round(prediction, 2)
 
-
-    def save_profile(self, data):
-            """Sauvegarde les données dans AccountUser"""
-            account, created = AccountUser.objects.get_or_create(user=self.request.user)
-            account.age = data['age']
-            account.sex = data['sex']
-            account.taille = data['taille']
-            account.poids = data['poids']
-            account.children = data['children']
-            account.is_fumeur = data['is_fumeur']
-            account.region = data['region']
-            account.save()
