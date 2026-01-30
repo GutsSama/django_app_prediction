@@ -16,7 +16,7 @@
             <div class="space-x-2">
                 <a class="btn btn-outline btn-secondary" href="{% url 'logout' %}">Déconnexion</a>
             </div>
-        {% elif not user.is_authenticated and request.path != "/accueil/" %}
+        {% elif not user.is_authenticated and request.path == "/accueil/" %}
         <div class="space-x-2">
                 <a class="btn btn-outline btn-primary" href="{% url 'signup' %}">Inscription</a>
                 <a class="btn btn-outline" href="{% url 'login' %}">Connexion</a>
