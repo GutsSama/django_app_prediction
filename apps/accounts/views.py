@@ -8,8 +8,11 @@ from django.views.generic import UpdateView
 from .forms import SignupForm, LoginForm, AccountUserForm
 from .models import AccountUser
 
-
 class SignupView(View):
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("/accueil")
+        return super().dispatch(request, *args, **kwargs)
     def get(self, request):
         return render(request, "signup.html", {"form": SignupForm()})
 
@@ -26,6 +29,10 @@ class SignupView(View):
 class CustomLoginView(LoginView):
     template_name = "login.html"
     authentication_form = LoginForm
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect("/accueil")
+        return super().dispatch(request, *args, **kwargs)
 
 
 class ProfileView(LoginRequiredMixin, UpdateView):
@@ -35,7 +42,7 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     success_url = ("/profile")
 
     def dispatch(self, request, *args, **kwargs):
-        if request.user.is_authenticated and request.user.is_conseiller:
+        if  request.user.is_authenticated and request.user.is_conseiller:
             return redirect("/accueil")
         return super().dispatch(request, *args, **kwargs)
 
