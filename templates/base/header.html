@@ -3,7 +3,7 @@
 <div class="grid grid-cols-8 gap-4 items-center">
     <div class="col-span-2">
         <a href="{% url 'accueil' %}">
-            <img src="{% static 'images/logorefont.png' %}" class="w-52 h-32" alt="Logo"/>
+            <img src="{% static 'images/logo_b.png' %}" class="w-52 h-32" alt="Logo"/>
         </a>
     </div>
     
@@ -11,13 +11,19 @@
     
     <div class="col-span-2 flex justify-end mr-4">
         {% if user.is_authenticated %}
-            <div class="space-x-2">
-                <form method="post" action="{% url 'logout' %}" class="inline">
+        <div class="flex items-center gap-3">
+                
+                <a class="btn btn-outline btn-primary mr-3" href="{% url 'accueil' %}">Accueil</a>
+                <a class="btn btn-outline btn-primary mr-3" href="{% url 'profile' %}">Profile</a>
+                <a class="btn btn-outline btn-primary mr-3" href="{% url 'predict' %}">Prediction</a>
+
+                <form method="post" action="{% url 'logout' %}" style="display:inline-block">
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-outline btn-secondary">
+                    <button type="submit" class="btn btn-outline btn-primary">
                         Déconnexion
                     </button>
                 </form>
+
             </div>
         {% elif not user.is_authenticated and request.path == "/accueil/" %}
         <div class="space-x-2">
