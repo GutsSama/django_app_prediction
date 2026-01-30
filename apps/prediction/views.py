@@ -6,6 +6,8 @@ from .forms import PredictionForm
 import joblib
 import os
 import pandas as pd
+from .services import load_model
+
 
 
 from django.conf import settings
@@ -47,9 +49,9 @@ class PredictionView(LoginRequiredMixin, FormView):
 
     def form_valid(self, form):
         # Charger le modèle
-        if os.path.exists(MODEL_PATH):
-            self.model = joblib.load(MODEL_PATH)
-        else:
+        self.model = load_model()
+        
+        if self.model is None:
             messages.error(self.request, "Le modèle n'a pas été trouvé.")
             return self.render_to_response(self.get_context_data(form=form))
 
