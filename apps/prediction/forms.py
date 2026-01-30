@@ -8,29 +8,42 @@ class PredictionForm(forms.ModelForm):
     class Meta:
         model = AccountUser
         fields = ['age', 'sex', 'taille', 'poids', 'children', 'is_fumeur', 'region']
+        
+        labels = {
+            'age': 'Âge',
+            'sex': 'Sexe',
+            'taille': 'Taille',
+            'poids': 'Poids',
+            'children': 'Nombre d\'enfants',
+            'is_fumeur': 'Fumeur ?',
+            'region': 'Région',
+        }
+
         widgets = {
             'age': forms.NumberInput(attrs={
-                'class': 'grid input input-neutral',
+                'class': 'input input-bordered w-full',
                 'placeholder': 'Âge'
             }),
             'sex': forms.Select(attrs={
-                'class': 'grid input input-neutral'
+                'class': 'select select-bordered w-full'
             }),
             'taille': forms.NumberInput(attrs={
-                'class': 'input input-neutral',
+                'class': 'input input-bordered w-full',
                 'placeholder': 'Taille (cm)'
             }),
             'poids': forms.NumberInput(attrs={
-                'class': 'grid input input-neutral',
+                'class': 'input input-bordered w-full',
                 'placeholder': 'Poids (kg)'
             }),
             'children': forms.NumberInput(attrs={
-                'class': 'grid input input-neutral'
+                'class': 'input input-bordered w-full',
+                'placeholder': 'Nombre d\'enfants'
             }),
-            'is_fumeur': forms.CheckboxInput(attrs={
-                'class': 'rounded border-gray-300 text-blue-600 focus:ring-blue-500'
+            'is_fumeur': forms.Select(attrs={
+                'class': 'select select-bordered w-full',
+                'choices': [('yes', 'Oui'), ('no', 'Non')]
             }),
             'region': forms.Select(attrs={
-                'class': 'grid input input-neutral'
+                'class': 'select select-bordered w-full'
             }),
         }
