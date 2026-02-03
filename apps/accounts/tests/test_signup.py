@@ -18,7 +18,7 @@ class SignupEmailTests(TestCase):
         )
 
         response = self.client.post(reverse("signup"), {
-            "email": "test@email.com",  # ❌ déjà utilisé
+            "email": "test@email.com", 
             "first_name": "Paul",
             "last_name": "Martin",
             "password1": "password123!",
@@ -50,7 +50,7 @@ class SignupEmailTests(TestCase):
 
     def test_signup_with_email_without_domain_fails(self):
         response = self.client.post(reverse("signup"), {
-            "email": "test@",  # ❌ pas de domaine
+            "email": "test@", 
             "first_name": "Paul",
             "last_name": "Martin",
             "password1": "password123!",
@@ -69,7 +69,7 @@ class SignupEmailTests(TestCase):
             "first_name": "Paul",
             "last_name": "Martin",
             "password1": "Password123!",
-            "password2": "Password123?",  # ❌ différent
+            "password2": "Password123?",  
         })
 
         self.assertEqual(User.objects.count(), 0)
@@ -153,21 +153,16 @@ class SignupEmailTests(TestCase):
             "password2": "Password123!",
         })
 
-        # ✅ 1 utilisateur créé
         self.assertEqual(User.objects.count(), 1)
 
-        # ✅ l'utilisateur existe bien en base
         user = User.objects.get(email="newuser@email.com")
 
-        # ✅ champs bien enregistrés
         self.assertEqual(user.first_name, "Paul")
         self.assertEqual(user.last_name, "Martin")
         self.assertEqual(user.email, "newuser@email.com")
 
-        # ✅ mot de passe bien hashé (pas stocké en clair)
         self.assertTrue(user.check_password("Password123!"))
 
-        # ✅ redirection vers profile
         self.assertRedirects(
             response,
             "/profile",
