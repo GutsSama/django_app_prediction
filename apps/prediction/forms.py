@@ -53,10 +53,10 @@ class PredictionForm(forms.ModelForm):
         age = self.cleaned_data.get('age')
 
         if age < 18:
-            raise forms.ValidationError("Vous devez avoir au moins 18 ans.")
+            raise forms.ValidationError("Vous devez avoir au moins 18 ans")
 
         if age > 125:
-            raise forms.ValidationError("L’âge ne peut pas dépasser 120 ans.")
+            raise forms.ValidationError("L’âge ne peut pas dépasser 120 ans")
 
         return age
     
@@ -65,7 +65,7 @@ class PredictionForm(forms.ModelForm):
         poids = self.cleaned_data.get('poids')
 
         if poids > 300:
-            raise forms.ValidationError("Le poids semble irréaliste.")
+            raise forms.ValidationError("Le poids semble irréaliste")
 
         return poids
 
@@ -73,7 +73,7 @@ class PredictionForm(forms.ModelForm):
         taille = self.cleaned_data.get('taille')
 
         if taille < 100 or taille > 250:
-            raise forms.ValidationError("La taille doit être comprise entre 100 et 250 cm.")
+            raise forms.ValidationError("La taille doit être comprise entre 100 et 250 cm")
 
         return taille
 
@@ -81,7 +81,7 @@ class PredictionForm(forms.ModelForm):
         children = self.cleaned_data.get('children')
 
         if children > 15:
-            raise forms.ValidationError("Valeur trop élevée.")
+            raise forms.ValidationError("Valeur trop élevée")
 
         return children
 
@@ -98,7 +98,7 @@ class PredictionForm(forms.ModelForm):
 
             if bmi < 10 or bmi > 60:
                 raise forms.ValidationError(
-                    "Les valeurs de taille et de poids sont incohérentes."
+                    "Les valeurs de taille et de poids sont incohérentes"
                 )
 
         return cleaned_data
