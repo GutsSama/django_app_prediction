@@ -16,6 +16,30 @@ class SignupForm(UserCreationForm):
             "invalid": "Entrez une adresse email valide.",
         },
     )
+
+    password1 = forms.CharField(
+        label='Mot de passe',
+        widget=forms.PasswordInput(attrs={
+            "class": "input input-bordered w-full",
+            "placeholder": "Votre mot de passe"
+        }),
+        help_text="Votre mot de passe doit contenir au moins 8 caractères.",
+        error_messages={
+            "required": "Le mot de passe est obligatoire.",
+        }
+    )
+
+    password2 = forms.CharField(
+        label='Confirmez le mot de passe',
+        widget=forms.PasswordInput(attrs={
+            "class": "input input-bordered w-full",
+            "placeholder": "Confirmez votre mot de passe"
+        }),
+        help_text="Entrez le même mot de passe que précédemment, pour vérification.",
+        error_messages={
+            "required": "La confirmation du mot de passe est obligatoire.",
+        },
+    )
     
     class Meta(UserCreationForm.Meta):
         model = CustomUser
@@ -101,36 +125,41 @@ class AccountUserForm(forms.ModelForm):
     def clean_age(self):
         age = self.cleaned_data.get('age')
 
-        if age < 18:
-            raise forms.ValidationError("Vous devez avoir au moins 18 ans.")
+        if age is not None:
+            if age < 18:
+                raise forms.ValidationError("Vous devez avoir au moins 18 ans.")
 
-        if age > 125:
-            raise forms.ValidationError("L’âge ne peut pas dépasser 120 ans.")
+            if age > 125:
+                raise forms.ValidationError("L'âge ne peut pas dépasser 120 ans.")
 
         return age
     
 
     def clean_poids(self):
         poids = self.cleaned_data.get('poids')
-
-        if poids > 300:
-            raise forms.ValidationError("Le poids semble irréaliste.")
+        if poids is not None:
+            if poids < 30:
+                raise forms.ValidationError("Le poids semble irréaliste.")
+            if poids > 300:
+                raise forms.ValidationError("Le poids semble irréaliste.")
 
         return poids
 
     def clean_taille(self):
         taille = self.cleaned_data.get('taille')
 
-        if taille < 100 or taille > 250:
-            raise forms.ValidationError("La taille doit être comprise entre 100 et 250 cm.")
+        if taille is not None:
+            if taille < 100 or taille > 250:
+                raise forms.ValidationError("La taille doit être comprise entre 100 et 250 cm.")
 
         return taille
 
     def clean_children(self):
         children = self.cleaned_data.get('children')
 
-        if children > 15:
-            raise forms.ValidationError("Valeur trop élevée.")
+        if children is not None:
+            if children > 15:
+                raise forms.ValidationError("Valeur trop élevée.")
 
         return children
 
@@ -141,7 +170,7 @@ class AccountUserForm(forms.ModelForm):
         taille = cleaned_data.get('taille')
         poids = cleaned_data.get('poids')
 
-        if taille and poids:
+        if taille is not None and poids is not None:
             taille_m = taille / 100
             bmi = poids / (taille_m ** 2)
 
