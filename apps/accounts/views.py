@@ -31,8 +31,11 @@ class SignupView(View):
 class CustomLoginView(LoginView):
     template_name = "login.html"
     authentication_form = LoginForm
-    success_url = "/accueil"
 
+    def get_success_url(self):
+        """Redirige toujours vers /accueil après login"""
+        return "/accueil"
+    
     def form_valid(self, form):
         messages.success(self.request, "Vous êtes maintenant connecté.")
         return super().form_valid(form)

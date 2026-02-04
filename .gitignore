@@ -38,7 +38,3 @@ db.sqlite3
 
 # Dossiers générés
 /staticfiles/
-/theme/static/
-
-# Ou plus précis :
-/theme/static/css/*.css
