@@ -1,34 +1,103 @@
+<!-- templates/base.html -->
 {% load static tailwind_tags %}
-<!DOCTYPE html>
+<!doctype html>
 <html lang="fr">
-    <head>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %} PrimePredict - Prédiction de Prime d'Assurance
+      {%endblock%}
+    </title>
+
     <!-- Tailwind CSS -->
     {% tailwind_css %}
 
-</head>
-    <body>
-        {% include 'base/header.html' %}
-        <main>
-                <!-- ✅ Test ultra-simple -->
-        {% if messages %}
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
 
-        <div id="toast" class="toast toast-top toast-start">
-            <div class="alert alert-success">
-                {% for message in messages %}
-                <p><strong>[{{ message.tags }}]</strong> {{ message }}</p>
-                {% endfor %}
-            </div>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Styles personnalisés -->
+    <style>
+      .gradient-bg {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      }
+
+      .glass-effect {
+        background: rgba(255, 255, 255, 0.1);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      .feature-card {
+        transition:
+          transform 0.3s ease,
+          box-shadow 0.3s ease;
+      }
+
+      .feature-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: scale(1.05);
+        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+      }
+
+      .stat-number {
+        font-size: 3rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+
+      body {
+        font-family: "Inter", sans-serif;
+      }
+    </style>
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body class="bg-gray-50">
+    {% include 'base/header.html' %}
+
+    <main>
+      <!-- Messages Django -->
+      {% if messages %}
+      <div id="toast" class="fixed top-4 left-4 z-50">
+        <div class="bg-green-500 text-white p-4 rounded-lg shadow-lg">
+          {% for message in messages %}
+          <p><strong>{{ message.tags|title }}</strong> {{ message }}</p>
+          {% endfor %}
         </div>
-        {% endif %}
-        {% block content %}
-        {% endblock %}
-        </main>
-<script>
-// Masquer le toast après 4 secondes
-setTimeout(() => {
-    const toast = document.getElementById('toast');
-    if (toast) toast.remove(); // ou toast.style.display = 'none';
-}, 4000);
-</script>
-    </body>
-</html>        
+      </div>
+      {% endif %} {% block content %} {% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+    <script>
+      // Masquer le toast après 4 secondes
+      setTimeout(() => {
+        const toast = document.getElementById("toast");
+        if (toast) toast.remove(); // ou toast.style.display = 'none';
+      }, 4000);
+    </script>
+  </body>
+</html>
