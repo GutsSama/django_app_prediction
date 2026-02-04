@@ -9,6 +9,7 @@ from django.urls import reverse_lazy
 from .forms import SignupForm, LoginForm, AccountUserForm
 from .models import AccountUser
 from django.contrib import messages
+
 class SignupView(View):
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -37,8 +38,12 @@ class CustomLoginView(LoginView):
         return "/accueil"
     
     def form_valid(self, form):
-        messages.success(self.request, "Vous êtes maintenant connecté.")
-        return super().form_valid(form)
+        is_valid = super().form_valid(form)
+        if is_valid:
+            messages.success(self.request, "Vous êtes maintenant connecté.")
+        else:
+            messages.error(self.request, "Échec de la connexion. Veuillez vérifier vos identifiants.")
+        return is_valid
     
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -53,8 +58,10 @@ class ProfileView(LoginRequiredMixin, UpdateView):
     success_url = reverse_lazy("profile")
 
     def form_valid(self, form):
-        messages.success(self.request, "Votre profil a été mis à jour avec succès.")
-        return super().form_valid(form)
+        is_valid = super().form_valid(form)
+        if is_valid:
+            messages.success(self.request, "Votre profil a été mis à jour avec succès.")
+        return is_valid
     
 
     def dispatch(self, request, *args, **kwargs):
@@ -62,9 +69,14 @@ class ProfileView(LoginRequiredMixin, UpdateView):
             return redirect("/accueil")
         return super().dispatch(request, *args, **kwargs)
 
-    def get_object(self, queryset=None):
-        try:
-            return AccountUser.objects.get(user=self.request.user)
-        except AccountUser.DoesNotExist:
-            # Crée un objet vide, l'utilisateur le remplira via le formulaire
-            return AccountUser(user=self.request.user)
+    def get_object(self, queryset=None):     
+        account_user, _ = AccountUser.objects.get_or_create(
+            user=self.request.user,
+            defaults={
+                "is_fumeur": "no",
+                "sex": "male",
+                "region": "northeast",
+                "children": 0,
+            }
+        )
+        return account_user
