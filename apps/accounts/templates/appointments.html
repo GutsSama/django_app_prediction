@@ -1,0 +1,6 @@
+<h2>Mes rendez-vous</h2>
+<ul>
+    {% for appointment in appointments %}
+        <li>{{ appointment.appointment_date }} - {{ appointment.status }}</li>
+    {% endfor %}
+</ul>

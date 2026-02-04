@@ -5,9 +5,10 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic import UpdateView
 from django.urls import reverse_lazy
+from django.contrib.auth.decorators import login_required
 
 from .forms import SignupForm, LoginForm, AccountUserForm
-from .models import AccountUser
+from .models import AccountUser, Appointment, CounselorProfile
 from django.contrib import messages
 
 class SignupView(View):
@@ -80,3 +81,24 @@ class ProfileView(LoginRequiredMixin, UpdateView):
             }
         )
         return account_user
+
+
+@login_required
+def create_appointment(request, conseiller_id):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
+    conseiller = CounselorProfile.objects.get(id=conseiller_id)
+    if request.method == 'POST':
+        appointment_date = request.POST.get('appointment_date')  # Assurez-vous de valider cette date
+
+        appointment = Appointment.objects.create(
+            client=request.user,
+            conseiller=conseiller,
+            appointment_date=appointment_date,
+            status='pending'
+        )
+        messages.success(request, "Votre rendez-vous a été créé avec succès.")
+        return redirect('appointments')  # Ou n'importe quelle page de confirmation
+
+    return render(request, 'create_appointment.html', {'conseiller': conseiller})
