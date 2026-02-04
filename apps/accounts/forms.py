@@ -97,28 +97,35 @@ class AccountUserForm(forms.ModelForm):
         widgets = {
             'age': forms.NumberInput(attrs={
                 'class': 'input input-bordered w-full',
-                'placeholder': 'Âge'
+                'placeholder': 'Âge',
+                'required': True,
             }),
             'sex': forms.Select(attrs={
-                'class': 'select select-bordered w-full'
+                'class': 'select select-bordered w-full',
+                'required': True,
             }),
             'taille': forms.NumberInput(attrs={
                 'class': 'input input-bordered w-full',
-                'placeholder': 'Taille (cm)'
+                'placeholder': 'Taille (cm)',
+                'required': True,
             }),
             'poids': forms.NumberInput(attrs={
                 'class': 'input input-bordered w-full',
-                'placeholder': 'Poids (kg)'
+                'placeholder': 'Poids (kg)',
+                'required': True,
             }),
             'children': forms.NumberInput(attrs={
                 'class': 'input input-bordered w-full',
-                'placeholder': 'Nombre d\'enfants'
+                'placeholder': 'Nombre d\'enfants',
+                'required': True,
             }),
             'is_fumeur': forms.Select(attrs={
-                'class': 'select select-bordered w-full'
+                'class': 'select select-bordered w-full',
+                'required': True,
             }),
             'region': forms.Select(attrs={
-                'class': 'select select-bordered w-full'
+                'class': 'select select-bordered w-full',
+                'required': True,
             }),
         }
     

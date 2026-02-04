@@ -463,12 +463,42 @@ class AccountUserFormTests(TestCase):
         
         self.assertTrue(form.is_valid())
     
-    def test_form_with_missing_fields_is_valid(self):
-        """Test : formulaire avec certains champs manquants est valide (null=True)"""
-        # ✅ Correction : tous les champs sont null=True ou ont un default
+    def test_form_missing_any_required_field_fails(self):
+        """Test : formulaire avec n'importe quel champ obligatoire manquant échoue"""
+        # Test chaque champ manquant individuellement
+        all_fields = {
+            "age": 30,
+            "children": 0,
+            "taille": 170,
+            "poids": 70,
+            "sex": "male",
+            "is_fumeur": "no",
+            "region": "northeast",
+        }
+        
+        for field_to_remove in all_fields.keys():
+            # Crée une copie sans le champ testé
+            test_data = all_fields.copy()
+            del test_data[field_to_remove]
+            
+            with self.subTest(missing_field=field_to_remove):
+                form = AccountUserForm(data=test_data)
+                self.assertFalse(
+                    form.is_valid(),
+                    f"Le champ '{field_to_remove}' devrait être obligatoire"
+                )
+                self.assertIn(
+                    field_to_remove,
+                    form.errors,
+                    f"Le champ '{field_to_remove}' devrait avoir une erreur"
+                )
+                print(f"✅ Champ '{field_to_remove}' bien obligatoire")
+    
+    def test_form_with_all_fields_present_is_valid(self):
+        """Test : formulaire avec tous les champs est valide"""
         form_data = {
             "age": 30,
-            # "children" manquant (mais a default=0)
+            "children": 0,
             "taille": 170,
             "poids": 70,
             "sex": "male",
@@ -478,20 +508,43 @@ class AccountUserFormTests(TestCase):
         
         form = AccountUserForm(data=form_data)
         
-        # Doit être valide car children a default=0
-        self.assertTrue(form.is_valid())
+        self.assertTrue(
+            form.is_valid(),
+            f"Formulaire devrait être valide. Erreurs: {form.errors}"
+        )
+        print("✅ Formulaire complet est valide")
     
-    def test_form_all_fields_optional(self):
-        """Test : formulaire vide est valide (tous les champs null=True)"""
-        # ✅ Correction : tous les champs sont optionnels
-        form_data = {}  # Aucun champ
+    def test_form_missing_required_field_fails(self):
+        """Test : formulaire avec champ obligatoire manquant échoue"""
+        # Test avec un champ manquant à chaque fois
+        test_cases = [
+            ("age", {"children": 0, "taille": 170, "poids": 70, "sex": "male", "is_fumeur": "no", "region": "northeast"}),
+            ("children", {"age": 30, "taille": 170, "poids": 70, "sex": "male", "is_fumeur": "no", "region": "northeast"}),
+            ("taille", {"age": 30, "children": 0, "poids": 70, "sex": "male", "is_fumeur": "no", "region": "northeast"}),
+            ("poids", {"age": 30, "children": 0, "taille": 170, "sex": "male", "is_fumeur": "no", "region": "northeast"}),
+            ("sex", {"age": 30, "children": 0, "taille": 170, "poids": 70, "is_fumeur": "no", "region": "northeast"}),
+            ("is_fumeur", {"age": 30, "children": 0, "taille": 170, "poids": 70, "sex": "male", "region": "northeast"}),
+            ("region", {"age": 30, "children": 0, "taille": 170, "poids": 70, "sex": "male", "is_fumeur": "no"}),
+        ]
+        
+        for missing_field, data in test_cases:
+            with self.subTest(missing_field=missing_field):
+                form = AccountUserForm(data=data)
+                self.assertFalse(form.is_valid(), f"Le champ {missing_field} devrait être obligatoire")
+                self.assertIn(missing_field, form.errors, f"Le champ {missing_field} devrait avoir une erreur")
+    
+    def test_form_with_all_required_fields_passes(self):
+        """Test : formulaire avec tous les champs obligatoires est valide"""
+        form_data = {
+            "age": 30,
+            "children": 0,
+            "taille": 170,
+            "poids": 70,
+            "sex": "male",
+            "is_fumeur": "no",
+            "region": "northeast",
+        }
         
         form = AccountUserForm(data=form_data)
-
-        if not  form.is_valid():
-            print("\n==================== Form Errors ===================")
-            print(form.errors)
-            print("====================================================\n")
         
-        # Tous les champs sont null=True ou ont un default
-        self.assertTrue(form.is_valid())
+        self.assertTrue(form.is_valid(), f"Formulaire devrait être valide. Erreurs: {form.errors}")

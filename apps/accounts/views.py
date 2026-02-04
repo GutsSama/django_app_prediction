@@ -60,13 +60,8 @@ class ProfileView(LoginRequiredMixin, UpdateView):
         return super().dispatch(request, *args, **kwargs)
 
     def get_object(self, queryset=None):
-        account_user, _ = AccountUser.objects.get_or_create(
-            user=self.request.user,
-            defaults={
-                "is_fumeur": "no",
-                "sex": "male",
-                "region": "northeast",
-                "children": 0,
-            }
-        )
-        return account_user
+        try:
+            return AccountUser.objects.get(user=self.request.user)
+        except AccountUser.DoesNotExist:
+            # Crée un objet vide, l'utilisateur le remplira via le formulaire
+            return AccountUser(user=self.request.user)
