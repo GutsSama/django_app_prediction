@@ -9,7 +9,26 @@
     <body>
         {% include 'base/header.html' %}
         <main>
-        {% block content %}{% endblock %}
+                <!-- ✅ Test ultra-simple -->
+        {% if messages %}
+
+        <div id="toast" class="toast toast-top toast-start">
+            <div class="alert alert-success">
+                {% for message in messages %}
+                <p><strong>[{{ message.tags }}]</strong> {{ message }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        {% endif %}
+        {% block content %}
+        {% endblock %}
         </main>
+<script>
+// Masquer le toast après 4 secondes
+setTimeout(() => {
+    const toast = document.getElementById('toast');
+    if (toast) toast.remove(); // ou toast.style.display = 'none';
+}, 4000);
+</script>
     </body>
 </html>        
