@@ -9,16 +9,21 @@ class CustomUserAdmin(UserAdmin):
     add_fieldsets = (
         (None, {
             'classes': ('wide',),
-            'fields': ('username', 'email', 'password1', 'password2', 'is_conseiller'),
+            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2', 'is_conseiller'),
         }),
     )
-    list_display = ['username', 'email', 'is_staff', 'is_conseiller', 'is_active']
+    list_display = ['email', 'first_name', 'last_name', 'is_staff', 'is_conseiller', 'is_active']
+
+    def save_model(self, request, obj, form, change):
+        if obj.email:
+            obj.username = obj.email
+        super().save_model(request, obj, form, change)
 
 admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(AccountUser)
 
 class CounselorProfileAdmin(admin.ModelAdmin):
-    list_display = ('user', 'description')  # Affiche l'utilisateur et la description
+    list_display = ('user', 'description')
     search_fields = ('user__username', 'user__email')
 
     def save_model(self, request, obj, form, change):
