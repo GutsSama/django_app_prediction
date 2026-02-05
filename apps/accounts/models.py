@@ -24,16 +24,17 @@ class AccountUser(models.Model):
     related_name="account_profile"
     )
 
-    age = models.PositiveIntegerField(verbose_name="Âge")
+    age = models.PositiveIntegerField(verbose_name="Âge", null=True)
     children = models.PositiveIntegerField(default=0, verbose_name="Nombre d'enfants")
 
-    taille = models.PositiveIntegerField(verbose_name="Taille (cm)")
-    poids = models.PositiveIntegerField(verbose_name="Poids (kg)")
+    taille = models.PositiveIntegerField(verbose_name="Taille (cm)",   null=True)
+    poids = models.PositiveIntegerField(verbose_name="Poids (kg)",  null=True)
+
     SEX_CHOICES = (
         ("female", "Femme"),
         ("male", "Homme"),
     )
-    sex = models.CharField(choices=SEX_CHOICES, verbose_name="Sexe", default='male')
+    sex = models.CharField(choices=SEX_CHOICES, verbose_name="Sexe",  null=True, default='male')
 
 
     FUMEUR_CHOICES = (
@@ -41,7 +42,7 @@ class AccountUser(models.Model):
         ("no", "non"),
     )
 
-    is_fumeur = models.CharField(choices=FUMEUR_CHOICES, verbose_name="fumeur", default="no")
+    is_fumeur = models.CharField(choices=FUMEUR_CHOICES, verbose_name="fumeur",  null=True, default="no")
 
 
     REGION_CHOICES = [
@@ -50,7 +51,7 @@ class AccountUser(models.Model):
         ('southeast', 'Sud-Est'),
         ('southwest', 'Sud-Ouest'),
     ]
-    region = models.CharField(choices=REGION_CHOICES,verbose_name="Région", default="northeast")
+    region = models.CharField(choices=REGION_CHOICES,verbose_name="Région",  null=True,   default="northeast")
 
     def __str__(self):
         return str(self.user) 

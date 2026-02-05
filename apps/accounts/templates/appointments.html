@@ -1,6 +1,33 @@
-<h2>Mes rendez-vous</h2>
-<ul>
-    {% for appointment in appointments %}
-        <li>{{ appointment.appointment_date }} - {{ appointment.status }}</li>
+{% extends "base.html" %}
+
+{% block title %}Rendez-vous{% endblock %}
+
+{% block content %}
+<h2>Rendez-vous</h2>
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: {% if 'error' in message.tags %}red{% else %}green{% endif %};">
+            {{ message }}
+        </p>
     {% endfor %}
-</ul>
+{% endif %}
+
+{% if user_appointments %}
+    <p> Vous avez déjà un rendez-vous avec {{ user_appointments.0.conseiller.user.username }}.</p>
+    <p>Date : {{ user_appointments.0.appointment_date }}</p>
+{% else %}
+    <form method="post">
+        {% csrf_token %}
+        <div>
+            {{ form.conseiller.label_tag }}<br>
+            {{ form.conseiller }}
+        </div>
+        <div>
+            {{ form.appointment_date.label_tag }}<br>
+            {{ form.appointment_date }}
+        </div>
+        <button type="submit">Prendre rendez-vous</button>
+    </form>
+{% endif %}
+{% endblock %}
