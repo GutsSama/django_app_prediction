@@ -1,6 +1,7 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser, AccountUser
+from .models import CustomUser, AccountUser, CounselorProfile, Appointment
+from django.utils import timezone
 
 
 class SignupForm(UserCreationForm):
@@ -188,4 +189,32 @@ class AccountUserForm(forms.ModelForm):
 
         return cleaned_data
 
+class AppointmentForm(forms.Form):
+    conseiller = forms.ModelChoiceField(
+        queryset=CounselorProfile.objects.all(),
+        label="Conseiller",
+        empty_label="Choisissez un conseiller",
+        widget=forms.Select(attrs={'class': 'form-control'})
+    )
+    appointment_date = forms.DateTimeField(
+        label="Date du rendez-vous",
+        widget=forms.DateTimeInput(
+            attrs={'type': 'datetime-local', 'class': 'form-control'},
+            format='%Y-%m-%dT%H:%M'
+        ),
+        input_formats=['%Y-%m-%dT%H:%M']
+    )
+
+    def clean_appointment_date(self):
+        date = self.cleaned_data['appointment_date']
+        if date < timezone.now():
+            raise forms.ValidationError("La date du rendez-vous ne peut pas être dans le passé.")
+        return date
     
+class AppointmentStatusForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-select'})
+        }

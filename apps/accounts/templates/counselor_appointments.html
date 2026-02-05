@@ -1,0 +1,41 @@
+<h2>Mes rendez-vous</h2>
+
+{% if appointment_forms %}
+    <table border="1" cellpadding="8" cellspacing="0">
+        <thead>
+            <tr>
+                <th>Client</th>
+                <th>Date</th>
+                <th>Statut</th>
+                <th>Modifier</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for appointment, form in appointment_forms %}
+            <tr>
+                <td>{{ appointment.client.username }}</td>
+                <td>{{ appointment.appointment_date|date:"d/m/Y H:i" }}</td>
+                <td>{{ appointment.get_status_display }}</td>
+                <td>
+                    <form method="post" style="display:inline;">
+                        {% csrf_token %}
+                        {{ form.status }}
+                        <input type="hidden" name="appointment_id" value="{{ appointment.id }}">
+                        <button type="submit">Enregistrer</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <p>Vous n'avez aucun rendez-vous.</p>
+{% endif %}
+
+{% if messages %}
+    {% for message in messages %}
+        <p style="color: {% if 'error' in message.tags %}red{% else %}green{% endif %};">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}

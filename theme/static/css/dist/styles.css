@@ -965,6 +965,9 @@
   .col-span-2 {
     grid-column: span 2 / span 2;
   }
+  .col-span-4 {
+    grid-column: span 4 / span 4;
+  }
   .container {
     width: 100%;
   }
@@ -1240,9 +1243,6 @@
   .shrink-0 {
     flex-shrink: 0;
   }
-  .transform {
-    transform: var(--tw-rotate-x,) var(--tw-rotate-y,) var(--tw-rotate-z,) var(--tw-skew-x,) var(--tw-skew-y,);
-  }
   @layer daisyui.l1.l2.l3 {
     .link {
       cursor: pointer;
@@ -1396,9 +1396,6 @@
   }
   .stroke-current {
     stroke: currentcolor;
-  }
-  .p-3 {
-    padding: calc(var(--spacing) * 3);
   }
   .p-4 {
     padding: calc(var(--spacing) * 4);
@@ -1980,26 +1977,6 @@ body {
     background-position-x: -115%;
   }
 }
-@property --tw-rotate-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-y {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-rotate-z {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-x {
-  syntax: "*";
-  inherits: false;
-}
-@property --tw-skew-y {
-  syntax: "*";
-  inherits: false;
-}
 @property --tw-space-y-reverse {
   syntax: "*";
   inherits: false;
@@ -2115,10 +2092,12 @@ body {
 @property --tw-backdrop-invert {
   syntax: "*";
   inherits: false;
+  initial-value: 1;
 }
 @property --tw-backdrop-opacity {
   syntax: "*";
   inherits: false;
+  initial-value: 1;
 }
 @property --tw-backdrop-saturate {
   syntax: "*";
@@ -2146,11 +2125,6 @@ body {
 @layer properties {
   @supports ((-webkit-hyphens: none) and (not (margin-trim: inline))) or ((-moz-orient: inline) and (not (color:rgb(from red r g b)))) {
     *, ::before, ::after, ::backdrop {
-      --tw-rotate-x: initial;
-      --tw-rotate-y: initial;
-      --tw-rotate-z: initial;
-      --tw-skew-x: initial;
-      --tw-skew-y: initial;
       --tw-space-y-reverse: 0;
       --tw-space-x-reverse: 0;
       --tw-border-style: solid;
