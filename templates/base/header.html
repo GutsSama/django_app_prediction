@@ -1,5 +1,4 @@
 {% load static %}
-
 <!-- Navigation -->
 <nav class="bg-white shadow-md w-full top-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -12,26 +11,51 @@
         </a>
       </div>
       
-      <!-- Navigation avec Tabs (du premier header) -->
-      <div class="hidden md:flex items-center flex-grow">
-        <div role="tablist" class="tabs tabs-border">
-          {% if user.is_authenticated %}
-          <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'accueil' %}tab-active{% endif %}" href="{% url 'accueil' %}"><strong>Accueil</strong></a>
-          <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'predict' %}tab-active{% endif %}" href="{% url 'predict' %}"><strong>Prediction</strong></a>
-          {% endif %}
-          {% if user.is_authenticated and not user.is_conseiller %}
-          <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'profile' %}tab-active{% endif %}" href="{% url 'profile' %}"><strong>Profile</strong></a>
-          <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'appointments' %}tab-active{% endif %}" href="{% url 'appointments' %}"><strong>Rendez-vous</strong></a>
-          {% endif %}
-          {% if user.is_authenticated and user.is_conseiller %}
-          <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'counselor_appointments' %}tab-active{% endif %}" href="{% url 'counselor_appointments' %}"><strong>Mes rendez-vous</strong></a>
-          {% endif %}
-        </div>
-      </div>
-      
-      <!-- Boutons de droite (du deuxième header) -->
-      <div class="flex items-center gap-3">
+      <!-- Navigation Centrale (Remplacement des onglets) -->
+      <div class="hidden md:flex space-x-8">
         {% if user.is_authenticated %}
+        <!-- Menu pour utilisateurs connectés -->
+        <a
+          href="{% url 'accueil' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'accueil' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Accueil
+        </a>
+        <a
+          href="{% url 'predict' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'predict' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Prédiction
+        </a>
+        {% if not user.is_conseiller %}
+        <a
+          href="{% url 'profile' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'profile' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Profil
+        </a>
+        <a
+          href="{% url 'appointments' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'appointments' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Rendez-vous
+        </a>
+        {% endif %}
+        {% if user.is_conseiller %}
+        <a
+          href="{% url 'counselor_appointments' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'counselor_appointments' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Mes rendez-vous
+        </a>
+        {% endif %}
+        {% endif %}
+      </div>
+
+      <!-- Boutons de droite (connexion/déconnexion) -->
+      <div class="flex space-x-4">
+        {% if user.is_authenticated %}
+        <!-- Connecté: Déconnexion -->
         <form method="post" action="{% url 'logout' %}" class="m-0">
           {% csrf_token %}
           <button
@@ -42,6 +66,7 @@
           </button>
         </form>
         {% else %}
+        <!-- Non connecté: Connexion / Inscription -->
         {% if request.path != "/login/" %}
         <a
           href="{% url 'login' %}"
@@ -49,7 +74,7 @@
         >
           Connexion
         </a>
-        {% endif %} 
+        {% endif %}
         {% if request.path != "/signup/" %}
         <a
           href="{% url 'signup' %}"
@@ -57,7 +82,7 @@
         >
           Inscription
         </a>
-        {% endif %} 
+        {% endif %}
         {% endif %}
       </div>
     </div>
