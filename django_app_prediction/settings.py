@@ -160,3 +160,4 @@ SESSION_SAVE_EVERY_REQUEST = True
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+NPM_BIN_PATH = "C:\Program Files\nodejs\npm.ps1"

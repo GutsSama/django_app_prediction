@@ -1,65 +1,80 @@
-{% extends "base.html" %}
-{% block content %}
-<div class="flex items-center justify-center p-4 mt-10">
+{% extends 'base.html' %} {% block content %}
+
+<div class="flex items-center justify-center p-4">
   <div class="card bg-base-100 w-full max-w-md shadow-xl">
     <div class="card-body p-8">
-      <h2 class="card-title text-2xl font-bold text-center mb-6">Connexion</h2>
+      <h2 class="card-title text-2xl font-bold text-center mb-6">
+          Connexion
+        </h2>
 
-      <!-- Erreurs d'authentification (si tu utilises authenticate) -->
-      {% if form.non_field_errors %}
+        <!-- Erreurs d'authentification -->
+        {% if form.non_field_errors %}
         <div class="alert alert-error shadow-sm mb-6">
-          <svg xmlns="http://www.w3.org/2000/svg" class="stroke-current shrink-0 h-6 w-6" fill="none" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z" />
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="stroke-current shrink-0 h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
+            />
           </svg>
           <span>{{ form.non_field_errors|first }}</span>
         </div>
-      {% endif %}
+        {% endif %}
 
-      <!-- Ancienne méthode avec variable 'error' -->
-      {% if error %}
+        <!-- Ancienne méthode avec variable 'error' -->
+        {% if error %}
         <div class="alert alert-error shadow-sm mb-6">
           <span>{{ error }}</span>
         </div>
-      {% endif %}
+        {% endif %}
 
-      <form method="post">
-        {% csrf_token %}
-        
-        {% for field in form %}
+        <form method="post">
+          {% csrf_token %} {% for field in form %}
           <div class="form-control mb-4">
             <label class="label" for="{{ field.id_for_label }}">
               <span class="label-text font-semibold">{{ field.label }}</span>
               {% if field.field.required %}
-                <span class="text-error">*</span>
+              <span class="text-error">*</span>
               {% endif %}
             </label>
-            
-            {{ field }}
-            
-            {% if field.errors %}
-              <label class="label">
-                <span class="label-text-alt text-error">{{ field.errors|first }}</span>
-              </label>
-            {% endif %}
-            
-            {% if field.help_text %}
-              <label class="label">
-                <span class="label-text-alt text-gray-500">{{ field.help_text }}</span>
-              </label>
+
+            {{ field }} {% if field.errors %}
+            <label class="label">
+              <span class="label-text-alt text-error"
+                >{{ field.errors|first }}</span
+              >
+            </label>
+            {% endif %} {% if field.help_text %}
+            <label class="label">
+              <span class="label-text-alt text-gray-500"
+                >{{ field.help_text }}</span
+              >
+            </label>
             {% endif %}
           </div>
-        {% endfor %}
+          {% endfor %}
 
-        <button type="submit" class="btn btn-primary w-full">Se connecter</button>
-        
-        <div class="text-center mt-4">
-          <p class="text-sm">
-            Pas encore de compte ? 
-            <a href="{% url 'signup' %}" class="link link-primary">Inscrivez-vous</a>
-          </p>
-        </div>
-      </form>
+          <button type="submit" class="btn btn-primary w-full">
+            Se connecter
+          </button>
+
+          <div class="text-center mt-4">
+            <p class="text-sm">
+              Pas encore de compte ?
+              <a href="{% url 'signup' %}" class="link link-primary"
+                >Inscrivez-vous</a
+              >
+            </p>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>  
+</div>
 {% endblock %}
