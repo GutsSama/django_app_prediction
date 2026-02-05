@@ -18,7 +18,7 @@
       {% endif %}
 
       <!-- Formulaire -->
-      <form method="post">
+      <form method="post" novalidate>
         {% csrf_token %}
         
         {% for field in form %}

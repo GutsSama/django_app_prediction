@@ -23,7 +23,7 @@
               d="M10 14l2-2m0 0l2-2m-2 2l-2-2m2 2l2 2m7-2a9 9 0 11-18 0 9 9 0 0118 0z"
             />
           </svg>
-          <span>{{ form.non_field_errors|first }}</span>
+          <span>{{ form.non_field_errors }}</span>
         </div>
         {% endif %}
 
@@ -34,7 +34,7 @@
         </div>
         {% endif %}
 
-        <form method="post">
+        <form method="post" novalidate>
           {% csrf_token %} {% for field in form %}
           <div class="form-control mb-4">
             <label class="label" for="{{ field.id_for_label }}">
@@ -47,7 +47,7 @@
             {{ field }} {% if field.errors %}
             <label class="label">
               <span class="label-text-alt text-error"
-                >{{ field.errors|first }}</span
+                >{{ field.errors }}</span
               >
             </label>
             {% endif %} {% if field.help_text %}
