@@ -44,42 +44,42 @@ Réalisé en équipe sur 10 jours, ce projet nous a permis de développer une ap
 - virtualenv ou venv
 - Node.js et npm (pour la gestion de Tailwind CSS)
 
-# Cloner le dépôt
+## Cloner le dépôt
 ```bash
 git clone git@github.com:GutsSama/django_app_prediction.git
 cd django_app_prediction
 ```
-# Créer et activer l'environnement virtuel
+## Créer et activer l'environnement virtuel
 ```bash
 python -m venv .venv
 source .venv/bin/activate    # Linux/Mac
 .venv\Scripts\activate     # Windows (PowerShell)
 ```
 
-# Installer les dépendances
+## Installer les dépendances
 ```bash
 pip install -r requirements.txt
 ```
 
-# Appliquer les migrations
+## Appliquer les migrations
 ```bash
 python manage.py migrate
 ```
 
-# Créer un superuser
+## Créer un superuser
 ```bash
 python manage.py createsuperuser
 ```
 
-# Lancer le serveur
+## Lancer le serveur
 ```bash
 python manage.py runserver
 ```
 
-# Lancer les tests
+## Lancer les tests
 ```bash
 python manage.py test
 ```
 
-# Accès à l’application (en local)
+## Accès à l’application (en local)
 http://127.0.0.1:8000/
