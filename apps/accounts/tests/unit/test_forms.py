@@ -113,7 +113,7 @@ class SignupFormTests(TestCase):
         
         # Sauvegarde l'utilisateur
         user = form.save(commit=False)
-        user.username = user.email  # Comme dans ta vue
+        user.username = user.email  # Assure que le username est l'email
         user.save()
         
         # Vérifie que l'utilisateur existe

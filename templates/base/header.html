@@ -6,17 +6,21 @@
             <img src="{% static 'images/logo_b.png' %}" class="w-52 h-32" alt="Logo"/>
         </a>
     </div>
-    <div class="col-span-1"></div>
-    <div class="col-span-2">
+    <div class="col-span-4">
         <div role="tablist" class="tabs tabs-border">
             {% if user.is_authenticated %}
             <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'accueil' %}tab-active{% endif %}" href="{% url 'accueil' %}"><strong>Accueil</strong></a>
-            <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'profile' %}tab-active{% endif %}" href="{% url 'profile' %}"><strong>Profile</strong></a>
             <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'predict' %}tab-active{% endif %}" href="{% url 'predict' %}"><strong>Prediction</strong></a>
+            {% endif %}
+            {% if user.is_authenticated and not user.is_conseiller %}
+            <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'profile' %}tab-active{% endif %}" href="{% url 'profile' %}"><strong>Profile</strong></a>
+            <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'appointments' %}tab-active{% endif %}" href="{% url 'appointments' %}"><strong>Rendez-vous</strong></a>
+            {% endif %}
+            {% if user.is_authenticated and user.is_conseiller %}
+            <a role="tab" class="tab mr-3 {% if request.resolver_match.url_name == 'counselor_appointments' %}tab-active{% endif %}" href="{% url 'counselor_appointments' %}"><strong>Mes rendez-vous</strong></a>
             {% endif %}
         </div>
     </div>
-    <div class="col-span-1"></div>
     <div class="col-span-2 flex justify-end mr-4">
         {% if user.is_authenticated %}
         <div class="flex items-center gap-3">
