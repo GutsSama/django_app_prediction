@@ -18,6 +18,30 @@ class SignupForm(UserCreationForm):
         },
     )
 
+    first_name = forms.CharField(
+        label='Prénom',
+        required=True,
+        widget=forms.TextInput(attrs={
+            "class": "input input-bordered w-full",
+            "placeholder": "Votre prénom"
+        }),
+        error_messages={
+            "required": "Le prénom est obligatoire.",
+        },
+    )
+
+    last_name = forms.CharField(
+        label='Nom de famille',
+        required=True,
+        widget=forms.TextInput(attrs={  
+            "class": "input input-bordered w-full",
+            "placeholder": "Votre nom de famille"
+        }),
+        error_messages={
+            "required": "Le nom de famille est obligatoire.",
+        },
+    )
+
     password1 = forms.CharField(
         label='Mot de passe',
         widget=forms.PasswordInput(attrs={
