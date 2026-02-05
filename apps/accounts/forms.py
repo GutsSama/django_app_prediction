@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser, AccountUser, CounselorProfile
+from .models import CustomUser, AccountUser, CounselorProfile, Appointment
 from django.utils import timezone
 
 
@@ -211,3 +211,10 @@ class AppointmentForm(forms.Form):
             raise forms.ValidationError("La date du rendez-vous ne peut pas être dans le passé.")
         return date
     
+class AppointmentStatusForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-select'})
+        }

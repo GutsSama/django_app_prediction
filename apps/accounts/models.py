@@ -83,7 +83,7 @@ class Appointment(models.Model):
     )
     appointment_date = models.DateTimeField(verbose_name="Date du rendez-vous")
     status = models.CharField(
-        choices=[('pending', 'En attente'), ('confirmed', 'Confirmé'), ('completed', 'Terminé')],
+        choices=[('pending', 'En attente'), ('confirmed', 'Confirmé'), ('completed', 'Terminé'), ('canceled', 'Annulé')],
         default='pending',
         max_length=20,
         verbose_name="Statut"
@@ -93,4 +93,4 @@ class Appointment(models.Model):
         return f"Rendez-vous de {self.client.username} avec {self.conseiller.user.username} à {self.appointment_date}"
 
     def is_past_due(self):
-        return self.appointment_date < timezone.now() and self.status != 'completed'
+        return self.appointment_date < timezone.now() and self.status not in ['completed', 'canceled']

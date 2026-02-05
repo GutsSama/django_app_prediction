@@ -1,12 +1,11 @@
 from django.views import View
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import LoginView
 from django.views.generic import UpdateView
 from django.urls import reverse_lazy
-
-from .forms import SignupForm, LoginForm, AccountUserForm, AppointmentForm
+from .forms import SignupForm, LoginForm, AccountUserForm, AppointmentForm, AppointmentStatusForm
 from .models import AccountUser, Appointment, CounselorProfile
 from django.contrib import messages
 
@@ -130,3 +129,57 @@ class AppointmentView(LoginRequiredMixin, View):
         else:
             # Réaffiche le formulaire avec erreurs (ex: date invalide)
             return render(request, self.template_name, {"form": form})
+        
+
+
+class CounselorAppointmentsView(LoginRequiredMixin, View):
+    template_name = "counselor_appointments.html"
+
+    def dispatch(self, request, *args, **kwargs):
+        # Seuls les conseillers peuvent accéder à cette page
+        if not request.user.is_conseiller:
+            messages.error(request, "Accès réservé aux conseillers.")
+            return redirect("/accueil")
+        return super().dispatch(request, *args, **kwargs)
+
+    def get(self, request):
+        try:
+            counselor_profile = request.user.profile
+        except CounselorProfile.DoesNotExist:
+            messages.error(request, "Votre profil conseiller n'est pas configuré.")
+            return redirect("/accueil")
+
+        # Récupère tous les rendez-vous liés à ce conseiller
+        appointments = Appointment.objects.filter(conseiller=counselor_profile).order_by('appointment_date')
+
+        # Prépare un formulaire par rendez-vous
+        appointment_forms = []
+        for appt in appointments:
+            form = AppointmentStatusForm(instance=appt)
+            appointment_forms.append((appt, form))
+
+        return render(request, self.template_name, {
+            'appointment_forms': appointment_forms
+        })
+
+    def post(self, request):
+        appointment_id = request.POST.get('appointment_id')
+        if not appointment_id:
+            messages.error(request, "Aucun rendez-vous sélectionné.")
+            return redirect("/my-appointments")
+
+        # Vérifie que le rendez-vous appartient bien au conseiller connecté
+        appointment = get_object_or_404(
+            Appointment,
+            id=appointment_id,
+            conseiller__user=request.user
+        )
+
+        form = AppointmentStatusForm(request.POST, instance=appointment)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Le statut du rendez-vous a été mis à jour.")
+        else:
+            messages.error(request, "Erreur lors de la mise à jour du statut.")
+
+        return redirect("/my-appointments")
