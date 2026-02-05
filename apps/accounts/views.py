@@ -82,12 +82,17 @@ class ProfileView(LoginRequiredMixin, UpdateView):
 
 class AppointmentView(LoginRequiredMixin, View):
     template_name = "appointments.html"
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
     def dispatch(self, request, *args, **kwargs):
-        # Empêcher les conseillers d'accéder à cette page
-        
+
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+
         if request.user.is_conseiller:
             return redirect("/accueil")
+        
         return super().dispatch(request, *args, **kwargs)
 
     def get(self, request):
@@ -131,17 +136,22 @@ class AppointmentView(LoginRequiredMixin, View):
             return render(request, self.template_name, {"form": form})
         
 
-
 class CounselorAppointmentsView(LoginRequiredMixin, View):
     template_name = "counselor_appointments.html"
+    login_url = '/login/'
+    redirect_field_name = 'next'
 
     def dispatch(self, request, *args, **kwargs):
-        # Seuls les conseillers peuvent accéder à cette page
+
+        if not request.user.is_authenticated:
+            return self.handle_no_permission()
+
         if not request.user.is_conseiller:
             messages.error(request, "Accès réservé aux conseillers.")
             return redirect("/accueil")
+        
         return super().dispatch(request, *args, **kwargs)
-
+        
     def get(self, request):
         try:
             counselor_profile = request.user.profile
