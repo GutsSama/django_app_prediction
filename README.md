@@ -9,7 +9,7 @@ la gestion du profil utilisateur et une fonctionnalité de prédiction personnal
 
 Réalisé en équipe sur 10 jours, ce projet nous a permis de développer une application Django complète tout en appliquant de bonnes pratiques de structuration, de sécurité et de tests.
 
-## ✨ Fonctionnalités
+## Fonctionnalités
 
 - Création de compte et authentification des utilisateurs (inscription, connexion, déconnexion)
 - Gestion du profil utilisateur avec modification des informations liées à l’assurance
@@ -19,7 +19,7 @@ Réalisé en équipe sur 10 jours, ce projet nous a permis de développer une ap
 - Validation des formulaires et gestion des erreurs
 - Mise en place de tests automatisés via le framework de tests Django (tests unitaires et fonctionnels)
 
-## 🧱 Technologies utilisées
+## Technologies utilisées
 
 ### Back-end
 - Python
@@ -37,7 +37,7 @@ Réalisé en équipe sur 10 jours, ce projet nous a permis de développer une ap
 ### Tests
 - Framework de tests intégré à Django (tests unitaires et fonctionnels)
 
-## 🔧 Prérequis
+## Prérequis
 
 - Python 3.10 ou supérieur
 - pip
@@ -45,29 +45,41 @@ Réalisé en équipe sur 10 jours, ce projet nous a permis de développer une ap
 - Node.js et npm (pour la gestion de Tailwind CSS)
 
 # Cloner le dépôt
+```bash
 git clone git@github.com:GutsSama/django_app_prediction.git
 cd django_app_prediction
-
+```
 # Créer et activer l'environnement virtuel
+```bash
 python -m venv .venv
 source .venv/bin/activate    # Linux/Mac
-# .venv\Scripts\activate     # Windows (PowerShell)
+.venv\Scripts\activate     # Windows (PowerShell)
+```
 
 # Installer les dépendances
+```bash
 pip install -r requirements.txt
+```
 
 # Appliquer les migrations
+```bash
 python manage.py migrate
+```
 
 # Créer un superuser
+```bash
 python manage.py createsuperuser
+```
 
 # Lancer le serveur
+```bash
 python manage.py runserver
+```
+
+# Lancer les tests
+```bash
+python manage.py test
+```
 
 # Accès à l’application (en local)
 http://127.0.0.1:8000/
-
-# Lancer les tests
-python manage.py test
-
