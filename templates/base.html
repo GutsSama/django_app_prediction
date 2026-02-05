@@ -27,58 +27,11 @@
       rel="stylesheet"
     />
 
-    <!-- Styles personnalisés -->
-    <style>
-      .gradient-bg {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-      }
-
-      .glass-effect {
-        background: rgba(255, 255, 255, 0.1);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      .feature-card {
-        transition:
-          transform 0.3s ease,
-          box-shadow 0.3s ease;
-      }
-
-      .feature-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
-      }
-
-      .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        transition: all 0.3s ease;
-      }
-
-      .btn-primary:hover {
-        transform: scale(1.05);
-        box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
-      }
-
-      .stat-number {
-        font-size: 3rem;
-        font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-      }
-
-      body {
-        font-family: "Inter", sans-serif;
-      }
-    </style>
-
     {% block extra_css %}{% endblock %}
   </head>
-  <body class="bg-gray-50">
+  <body class="bg-gray-50 pt-16">
     {% include 'base/header.html' %}
-
-    <main>
+    <main class="pt-16">
       <!-- Messages Django -->
       {% if messages %}
       <div id="toast" class="fixed top-4 left-4 z-50">

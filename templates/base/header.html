@@ -1,6 +1,7 @@
 {% load static %}
 
-<nav class="bg-white shadow-md fixed w-full top-0 z-50">
+<!-- Navigation -->
+<nav class="bg-white shadow-md w-full top-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <div class="flex justify-between items-center h-16">
       <!-- Logo / Nom -->
@@ -34,38 +35,30 @@
           Prédiction
         </a>
         {% else %}
-        <!-- Menu pour non-connectés (ancre pour landing page) -->
+        <!-- Menu pour non-connectés mais pas sur login/signup -->
+        {% if request.path != "/login/" and request.path != "/signup/" %}
         <a
           href="#accueil"
           class="text-gray-700 hover:text-purple-600 transition"
+          >Accueil</a
         >
-          Accueil
-        </a>
         <a
           href="#fonctionnalites"
           class="text-gray-700 hover:text-purple-600 transition"
+          >Fonctionnalités</a
         >
-          Fonctionnalités
-        </a>
         <a
           href="#comment-ca-marche"
           class="text-gray-700 hover:text-purple-600 transition"
+          >Comment ça marche</a
         >
-          Comment ça marche
-        </a>
-        <a
-          href="#apropos"
-          class="text-gray-700 hover:text-purple-600 transition"
-        >
-          À propos
-        </a>
-        {% endif %}
+        {% endif %} {% endif %}
       </div>
 
       <!-- Boutons de droite -->
       <div class="flex space-x-4">
         {% if user.is_authenticated %}
-        <!-- Connecté: Bouton Déconnexion -->
+        <!-- Connecté: Déconnexion -->
         <form method="post" action="{% url 'logout' %}" class="m-0">
           {% csrf_token %}
           <button
@@ -76,11 +69,11 @@
           </button>
         </form>
         {% else %}
-        <!-- Non connecté: Connexion/Inscription -->
+        <!-- Non connecté: Connexion / Inscription -->
         {% if request.path != "/login/" %}
         <a
           href="{% url 'login' %}"
-          class="px-4 py-2 text-purple-600 border border-purple-600 rounded-lg hover:bg-purple-50 transition"
+          class="btn-primary px-4 py-2 text-white rounded-lg hover:scale-105 transition"
         >
           Connexion
         </a>
