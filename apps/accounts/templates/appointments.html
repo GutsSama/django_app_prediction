@@ -1,33 +1,67 @@
 {% extends "base.html" %}
 
-{% block title %}Rendez-vous{% endblock %}
-
 {% block content %}
-<h2>Rendez-vous</h2>
-
-{% if messages %}
-    {% for message in messages %}
-        <p style="color: {% if 'error' in message.tags %}red{% else %}green{% endif %};">
-            {{ message }}
-        </p>
-    {% endfor %}
-{% endif %}
+<div class="flex items-center justify-center p-4">
+<h2 class="card-title text-2xl font-bold text-center mb-6">Prendre un rendez-vous</h2>
+</div>
 
 {% if user_appointments %}
-    <p> Vous avez déjà un rendez-vous avec {{ user_appointments.0.conseiller.user.username }}.</p>
-    <p>Date : {{ user_appointments.0.appointment_date }}</p>
+<div style="max-width: 600px; margin: 0 auto; padding: 25px; border: 2px solid #4caf50; border-radius: 8px; background-color: #f1f8e9; text-align: center;">
+    <div style="margin-bottom: 15px;">
+        <i class="fas fa-check-circle" style="font-size: 3em; color: #4caf50;"></i>
+    </div>
+    <h3 style="margin-bottom: 15px; color: #2e7d32; font-size: 1.3em;">Rendez-vous pris !</h3>
+    <p style="margin-bottom: 10px; font-size: 1.1em;">
+        <strong>Conseiller :</strong> {{ user_appointments.0.conseiller.user.username }}
+    </p>
+    <p style="margin-bottom: 20px; font-size: 1.1em;">
+        <strong>Date :</strong> {{ user_appointments.0.appointment_date|date:"d/m/Y" }} à {{ user_appointments.0.appointment_date|date:"H:i" }}
+    </p>
+</div>
 {% else %}
-    <form method="post">
-        {% csrf_token %}
-        <div>
-            {{ form.conseiller.label_tag }}<br>
-            {{ form.conseiller }}
-        </div>
-        <div>
-            {{ form.appointment_date.label_tag }}<br>
-            {{ form.appointment_date }}
-        </div>
-        <button type="submit">Prendre rendez-vous</button>
-    </form>
+<div style="max-width: 600px; margin: 0 auto; padding: 30px; border: 1px solid #ddd; border-radius: 8px; background-color: #fff; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+    
+    <form method="post" novalidate>
+    {% csrf_token %}
+    
+    <div style="margin-bottom: 25px;">
+        <label for="{{ form.conseiller.id_for_label }}" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">
+            {{ form.conseiller.label }}
+        </label>
+        {{ form.conseiller }}
+        {% if form.conseiller.errors %}
+            <div style="color: #f44336; font-size: 0.9em;">
+                {% for error in form.conseiller.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div style="margin-bottom: 25px;">
+        <label for="{{ form.appointment_date.id_for_label }}" style="display: block; margin-bottom: 8px; font-weight: bold; color: #555;">
+            {{ form.appointment_date.label }}
+        </label>
+        {{ form.appointment_date }}
+        {% if form.appointment_date.errors %}
+            <div style="color: #f44336; font-size: 0.9em;">
+                {% for error in form.appointment_date.errors %}
+                    <p>{{ error }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+    </div>
+    
+    <div style="text-align: center; margin-top: 20px;">
+        <button type="submit" style="background-color: #6d28d9; color: white; padding: 12px 40px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1.1em; transition: background-color 0.3s;">
+            <i class="fas fa-calendar-plus" style="margin-right: 8px;"></i>Prendre rendez-vous
+        </button>
+    </div>
+    
+</form>
+
+    
+</div>
 {% endif %}
+
 {% endblock %}

@@ -1,4 +1,20 @@
 from django.db import models
+"""
+Models for user accounts, counselor profiles, and appointment management.
+This module defines the core data models for a Django application that manages
+custom user accounts with different roles (regular users and counselors/advisors),
+user profile information, and appointment scheduling between clients and counselors.
+Classes:
+    CustomUser: Extended Django user model with additional fields for counselor
+                status and assignment to a counselor.
+    AccountUser: User profile model storing personal and demographic information
+                 including age, physical measurements, gender, smoking status,
+                 and regional location.
+    CounselorProfile: Profile model for users with counselor/advisor role,
+                      containing descriptive information.
+    Appointment: Model representing scheduled appointments between clients
+                 and counselors with status tracking and validation.
+"""
 from django.contrib.auth.models import AbstractUser
 from django.utils import timezone
 

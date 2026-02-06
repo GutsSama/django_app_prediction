@@ -2,6 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import CustomUser, AccountUser, CounselorProfile, Appointment
 from django.utils import timezone
+from datetime import timedelta
 
 
 class SignupForm(UserCreationForm):
@@ -213,6 +214,8 @@ class AccountUserForm(forms.ModelForm):
 
         return cleaned_data
 
+from django.utils import timezone
+
 class AppointmentForm(forms.Form):
     conseiller = forms.ModelChoiceField(
         queryset=CounselorProfile.objects.all(),
@@ -229,11 +232,32 @@ class AppointmentForm(forms.Form):
         input_formats=['%Y-%m-%dT%H:%M']
     )
 
+    def clean_conseiller(self):
+        conseiller = self.cleaned_data.get('conseiller')
+        
+        if not conseiller:
+            raise forms.ValidationError("Veuillez sélectionner un conseiller.")
+        
+        return conseiller
+
+
     def clean_appointment_date(self):
         date = self.cleaned_data['appointment_date']
+
+        # weekday() : 0=lundi, 6=dimanche
+        if date.weekday() >= 5:  # 5=samedi, 6=dimanche
+            raise forms.ValidationError("Les rendez-vous ne sont pas disponibles le week-end.")
+
+        # Vérifier si la date du rendez-vous est dans le passé
         if date < timezone.now():
             raise forms.ValidationError("La date du rendez-vous ne peut pas être dans le passé.")
+        
+        # Vérifier si la date est dans un intervalle de 24 heures
+        if date < timezone.now() + timedelta(hours=24):
+            raise forms.ValidationError("Le rendez-vous doit être pris au moins 24 heures à l'avance.")
+
         return date
+
     
 class AppointmentStatusForm(forms.ModelForm):
     class Meta:

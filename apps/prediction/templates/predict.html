@@ -8,12 +8,10 @@
 
       <!-- Messages Django -->
       {% if messages %}
-        <div class="alert alert-info mb-6">
-          <ul class="list-disc list-inside">
+        <div class="bg-green-500 text-white p-4 rounded-lg shadow-lg">
             {% for message in messages %}
-              <li>{{ message }}</li>
+              <strong>{{ message }}</strong>
             {% endfor %}
-          </ul>
         </div>
       {% endif %}
 
