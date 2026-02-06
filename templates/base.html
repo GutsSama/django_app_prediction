@@ -1,0 +1,57 @@
+<!-- templates/base.html -->
+{% load static tailwind_tags %}
+
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>
+      {% block title %} PrimePredict - Prédiction de Prime d'Assurance
+      {%endblock%}
+    </title>
+
+    <!-- Tailwind CSS -->
+    {% tailwind_css %}
+
+    <!-- Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+
+    {% block extra_css %}{% endblock %}
+  </head>
+  <body>
+    {% include 'base/header.html' %}
+    <main class="pt-16">
+      <!-- Messages Django -->
+      {% if messages %}
+      <div id="toast" class="fixed top-4 left-4 z-50">
+        <div class="bg-green-500 text-white p-4 rounded-lg shadow-lg">
+          {% for message in messages %}
+          <p><strong>{{ message.tags|title }}</strong> {{ message }}</p>
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %} {% block content %} {% endblock %}
+    </main>
+
+    {% block extra_js %}{% endblock %}
+    <script>
+      // Masquer le toast après 4 secondes
+      setTimeout(() => {
+        const toast = document.getElementById("toast");
+        if (toast) toast.remove(); // ou toast.style.display = 'none';
+      }, 4000);
+    </script>
+  </body>
+</html>

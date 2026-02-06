@@ -1,2 +1,40 @@
+# Environnements virtuels
 /environment
-.venv
+venv/
+.env/
+.venv/
+
+# Fichiers Python
+__pycache__/
+*.py[cod]*
+*.pyc
+*$py.class
+*/__pycache__/*
+*.pyo
+*.pyd
+
+
+# Fichiers IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Fichiers système
+.DS_Store
+Thumbs.db
+
+# Base de données SQLite (en dev seulement)
+db.sqlite3
+
+# Logs
+*.log
+
+
+.env 
+
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Dossiers générés
+/staticfiles/

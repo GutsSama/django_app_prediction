@@ -1,0 +1,93 @@
+{% block header %}
+{% load static tailwind_tags %}
+
+<!-- Navigation -->
+<nav class="bg-white shadow-md w-full top-0">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo / Nom -->
+      <div class="flex items-center">
+        <a href="{% url 'accueil' %}" class="flex items-center">
+          <i class="fas fa-shield-alt text-3xl text-purple-600 mr-3"></i>
+          <span class="text-2xl font-bold text-gray-800">PrimePredict</span>
+        </a>
+      </div>
+      
+      <!-- Navigation Centrale (Remplacement des onglets) -->
+      <div class="hidden md:flex space-x-8">
+        {% if user.is_authenticated %}
+        <!-- Menu pour utilisateurs connectés -->
+        <a
+          href="{% url 'accueil' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'accueil' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Accueil
+        </a>
+        <a
+          href="{% url 'predict' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'predict' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Prédiction
+        </a>
+        {% if not user.is_conseiller %}
+        <a
+          href="{% url 'profile' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'profile' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Profil
+        </a>
+        <a
+          href="{% url 'appointments' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'appointments' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Rendez-vous
+        </a>
+        {% endif %}
+        {% if user.is_conseiller %}
+        <a
+          href="{% url 'counselor_appointments' %}"
+          class="text-gray-700 hover:text-purple-600 transition {% if request.resolver_match.url_name == 'counselor_appointments' %}text-purple-600 font-semibold{% endif %}"
+        >
+          Mes rendez-vous
+        </a>
+        {% endif %}
+        {% endif %}
+      </div>
+
+      <!-- Boutons de droite (connexion/déconnexion) -->
+      <div class="flex space-x-4">
+        {% if user.is_authenticated %}
+        <!-- Connecté: Déconnexion -->
+        <form method="post" action="{% url 'logout' %}" class="m-0">
+          {% csrf_token %}
+          <button
+            type="submit"
+            class="px-4 py-2 text-purple-600 border border-purple-600 rounded-lg hover:bg-purple-50 transition"
+          >
+            Déconnexion
+          </button>
+        </form>
+        {% else %}
+        <!-- Non connecté: Connexion / Inscription -->
+        {% if request.path != "/login/" %}
+        <a
+          href="{% url 'login' %}"
+          class="btn-primary px-4 py-2 text-white rounded-lg hover:scale-105 transition"
+        >
+          Connexion
+        </a>
+        {% endif %}
+        {% if request.path != "/signup/" %}
+        <a
+          href="{% url 'signup' %}"
+          class="btn-primary px-4 py-2 text-white rounded-lg hover:scale-105 transition"
+        >
+          Inscription
+        </a>
+        {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</nav>
+{% endblock %}

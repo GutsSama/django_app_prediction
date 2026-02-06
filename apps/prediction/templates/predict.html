@@ -1,0 +1,66 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="flex items-center justify-center p-4">
+  <div class="card bg-base-100 w-full max-w-md shadow-xl">
+    <div class="card-body p-8">
+      <h2 class="card-title text-2xl font-bold text-center mb-6">Prédiction des charges d'assurance</h2>
+
+      <!-- Messages Django -->
+      {% if messages %}
+        <div class="bg-green-500 text-white p-4 rounded-lg shadow-lg">
+            {% for message in messages %}
+              <strong>{{ message }}</strong>
+            {% endfor %}
+        </div>
+      {% endif %}
+
+      <!-- Formulaire -->
+      <form method="post" novalidate>
+        {% csrf_token %}
+        
+        {% for field in form %}
+          <div class="form-control w-full mb-4">
+            <!-- Label -->
+            <label class="label-text font-semibold" for="{{ field.id_for_label }}">
+              <span class="label-text">{{ field.label }}</span>
+              {% if field.field.required %}
+                <span class="text-error">*</span>
+              {% endif %}
+            </label>
+            
+            <!-- Input -->
+            {{ field }}
+            
+            <!-- Erreurs -->
+            {% if field.errors %}
+              <div class="text-error text-sm mt-1">
+                {% for error in field.errors %}
+                  <p>{{ error }}</p>
+                {% endfor %}
+              </div>
+            {% endif %}
+            
+            <!-- Help text -->
+            {% if field.help_text %}
+              <small class="text-gray-500">{{ field.help_text }}</small>
+            {% endif %}
+          </div>
+        {% endfor %}
+        
+        <button type="submit" class="btn btn-primary w-full mt-6">Prédire</button>
+      </form>
+
+      <!-- Résultat 
+      {% if prediction %}
+        <div class="alert alert-success mt-6">
+          <h3 class="font-bold text-lg">Résultat de la prédiction</h3>
+          <p class="text-xl mt-2"><strong>Charges estimées :</strong> {{ prediction }} €</p>
+        </div>
+      {% endif %}-->
+
+    </div>
+  </div>
+</div>  
+
+{% endblock %}
