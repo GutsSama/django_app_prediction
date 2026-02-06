@@ -1,4 +1,6 @@
-{% load static %}
+{% block header %}
+{% load static tailwind_tags %}
+
 <!-- Navigation -->
 <nav class="bg-white shadow-md w-full top-0">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -88,3 +90,4 @@
     </div>
   </div>
 </nav>
+{% endblock %}
